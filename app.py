@@ -8,6 +8,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 from pydantic import BaseModel
 import PyPDF2
 from docx import Document
@@ -17,7 +19,13 @@ import os
 # Import the generator class
 from groq_llm import InterviewQuestionGenerator
 
+
+
 app = FastAPI()
+
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
+app.add_middleware(HTTPSRedirectMiddleware)
+
 
 # Enable CORS for frontend access
 app.add_middleware(
