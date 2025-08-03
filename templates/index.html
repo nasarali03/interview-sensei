@@ -1,0 +1,345 @@
+{% extends "base.html" %} {% block title %}InterviewAI - AI-Powered Interview
+Preparation{% endblock %} {% block content %}
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-container">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="gradient-text">AI-Powered</span> Interview Preparation
+      </h1>
+      <p class="hero-subtitle">
+        Generate personalized interview questions and answers based on job
+        descriptions and resumes. Upload documents or paste text to get started
+        instantly.
+      </p>
+      <div class="hero-buttons">
+        <a href="#generator" class="btn btn-primary">
+          <i class="fas fa-rocket"></i>
+          Get Started
+        </a>
+        <a href="#how-it-works" class="btn btn-secondary">
+          <i class="fas fa-play"></i>
+          How It Works
+        </a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="floating-card">
+        <i class="fas fa-file-alt"></i>
+        <span>Upload Documents</span>
+      </div>
+      <div class="floating-card">
+        <i class="fas fa-brain"></i>
+        <span>AI Analysis</span>
+      </div>
+      <div class="floating-card">
+        <i class="fas fa-question-circle"></i>
+        <span>Get Questions</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="features">
+  <div class="container">
+    <div class="section-header">
+      <h2>Why Choose InterviewAI?</h2>
+      <p>Advanced features to enhance your interview preparation</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-upload"></i>
+        </div>
+        <h3>Document Upload</h3>
+        <p>
+          Upload PDF, DOCX, DOC, and TXT files. Our AI extracts text and
+          analyzes content automatically.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-robot"></i>
+        </div>
+        <h3>AI-Powered Analysis</h3>
+        <p>
+          Advanced language models analyze your documents and generate relevant,
+          personalized questions.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-bolt"></i>
+        </div>
+        <h3>Real-time Processing</h3>
+        <p>
+          Get instant results with our optimized processing pipeline. No
+          waiting, no delays.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3>Secure & Private</h3>
+        <p>
+          Your documents are processed securely and never stored. Complete
+          privacy protection.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="how-it-works">
+  <div class="container">
+    <div class="section-header">
+      <h2>How It Works</h2>
+      <p>Simple steps to get your personalized interview questions</p>
+    </div>
+    <div class="steps-container">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>Upload Documents</h3>
+          <p>
+            Upload your job description and resume files, or paste the text
+            directly into our form.
+          </p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>AI Analysis</h3>
+          <p>
+            Our AI analyzes the content, extracts key skills, and identifies
+            relevant topics.
+          </p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>Generate Questions</h3>
+          <p>
+            Get personalized interview questions with ideal answers tailored to
+            your specific situation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Generator Section -->
+<section id="generator" class="generator">
+  <div class="container">
+    <div class="section-header">
+      <h2>Generate Your Questions</h2>
+      <p>Upload documents or paste text to get started</p>
+    </div>
+
+    <div class="generator-container">
+      <div class="supported-formats">
+        <h4><i class="fas fa-info-circle"></i> Supported Formats</h4>
+        <div class="format-badges">
+          <span class="format-badge">PDF</span>
+          <span class="format-badge">DOCX</span>
+          <span class="format-badge">DOC</span>
+          <span class="format-badge">TXT</span>
+        </div>
+        <p class="format-info">Maximum file size: 10MB per file</p>
+      </div>
+
+      <form id="uploadForm" class="generator-form">
+        <div class="form-sections">
+          <!-- Job Description Section -->
+          <div class="form-section">
+            <div class="section-header-small">
+              <h3><i class="fas fa-briefcase"></i> Job Description</h3>
+              <p>Upload or paste the job description</p>
+            </div>
+
+            <div class="input-group">
+              <label for="jdText">Job Description Text:</label>
+              <textarea
+                id="jdText"
+                class="text-input"
+                rows="6"
+                placeholder="Paste job description here..."
+              ></textarea>
+            </div>
+
+            <div class="input-group">
+              <label for="jdFile">Or Upload Job Description File:</label>
+              <div class="file-upload-container">
+                <button
+                  type="button"
+                  class="file-upload-btn"
+                  onclick="document.getElementById('jdFile').click()"
+                >
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  Choose File
+                </button>
+                <input
+                  type="file"
+                  id="jdFile"
+                  class="file-input"
+                  accept=".pdf,.docx,.doc,.txt"
+                />
+                <div
+                  id="jdFileInfo"
+                  class="file-info"
+                  style="display: none"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Resume Section -->
+          <div class="form-section">
+            <div class="section-header-small">
+              <h3><i class="fas fa-user"></i> Resume</h3>
+              <p>Upload or paste your resume</p>
+            </div>
+
+            <div class="input-group">
+              <label for="resumeText">Resume Text:</label>
+              <textarea
+                id="resumeText"
+                class="text-input"
+                rows="6"
+                placeholder="Paste resume here..."
+              ></textarea>
+            </div>
+
+            <div class="input-group">
+              <label for="resumeFile">Or Upload Resume File:</label>
+              <div class="file-upload-container">
+                <button
+                  type="button"
+                  class="file-upload-btn"
+                  onclick="document.getElementById('resumeFile').click()"
+                >
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  Choose File
+                </button>
+                <input
+                  type="file"
+                  id="resumeFile"
+                  class="file-input"
+                  accept=".pdf,.docx,.doc,.txt"
+                />
+                <div
+                  id="resumeFileInfo"
+                  class="file-info"
+                  style="display: none"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <i class="fas fa-magic"></i>
+          Generate Interview Questions
+        </button>
+      </form>
+
+      <!-- Results Section -->
+      <div id="result" class="result" style="display: none">
+        <div class="result-header">
+          <h3>
+            <i class="fas fa-lightbulb"></i> Generated Questions & Answers
+          </h3>
+          <button class="copy-btn" onclick="copyToClipboard()">
+            <i class="fas fa-copy"></i>
+            Copy
+          </button>
+        </div>
+        <div id="resultContent" class="result-content"></div>
+      </div>
+
+      <!-- Loading Section -->
+      <div id="loading" class="loading" style="display: none">
+        <div class="loading-spinner">
+          <div class="spinner"></div>
+        </div>
+        <h3>Generating your questions...</h3>
+        <p>
+          Please wait while we analyze your documents and create personalized
+          questions.
+        </p>
+      </div>
+
+      <!-- Error Section -->
+      <div id="error" class="error" style="display: none"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact">
+  <div class="container">
+    <div class="section-header">
+      <h2>Get in Touch</h2>
+      <p>Have questions? We'd love to hear from you</p>
+    </div>
+    <div class="contact-content">
+      <div class="contact-info">
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <div>
+            <h4>Email</h4>
+            <p>contact@interviewai.com</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-phone"></i>
+          <div>
+            <h4>Phone</h4>
+            <p>+1 (555) 123-4567</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <div>
+            <h4>Location</h4>
+            <p>San Francisco, CA</p>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <form>
+          <div class="form-row">
+            <div class="input-group">
+              <input type="text" placeholder="Your Name" required />
+            </div>
+            <div class="input-group">
+              <input type="email" placeholder="Your Email" required />
+            </div>
+          </div>
+          <div class="input-group">
+            <input type="text" placeholder="Subject" required />
+          </div>
+          <div class="input-group">
+            <textarea placeholder="Your Message" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %} {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-cpp.min.js"></script>
+<script src="{{ url_for('static', path='js/generator.js') }}"></script>
+{% endblock %}
