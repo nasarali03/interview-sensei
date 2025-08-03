@@ -1,4 +1,4 @@
-# InterviewAI - AI-Powered Interview Preparation
+# IntervuewSensei - AI-Powered Interview Preparation
 
 A modern, full-featured web application that generates personalized interview questions and answers based on job descriptions and resumes. Built with FastAPI, Jinja2 templates, and a beautiful responsive UI.
 
@@ -311,7 +311,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 📞 Support
 
-For support, email contact@interviewai.com or create an issue in the repository.
+For support, email contact@IntervuewSensei.com or create an issue in the repository.
 
 ---
 

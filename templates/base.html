@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Interview Question Generator{% endblock %}</title>
     <link
+      rel="icon"
+      type="image/svg+xml"
+      href="{{ url_for('static', path='favicon.svg') }}"
+    />
+    <link
       rel="stylesheet"
       href="{{ url_for('static', path='css/style.css') }}"
     />
@@ -27,8 +32,8 @@
     <nav class="navbar">
       <div class="nav-container">
         <div class="nav-logo">
-          <i class="fas fa-brain"></i>
-          <span>InterviewAI</span>
+          <i class="fas fa-user-tie"></i>
+          <span>Interview Sensei</span>
         </div>
         <ul class="nav-menu">
           <li class="nav-item">
@@ -59,7 +64,7 @@
     <footer class="footer">
       <div class="footer-container">
         <div class="footer-section">
-          <h3><i class="fas fa-brain"></i> InterviewAI</h3>
+          <h3><i class="fas fa-user-tie"></i> Interview Sensei</h3>
           <p>
             Your AI-powered interview preparation assistant. Generate
             personalized questions and answers based on job descriptions and
@@ -91,13 +96,13 @@
         </div>
         <div class="footer-section">
           <h4>Contact</h4>
-          <p><i class="fas fa-envelope"></i> contact@interviewai.com</p>
+          <p><i class="fas fa-envelope"></i> contact@interview-sensei.com</p>
           <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
           <p><i class="fas fa-map-marker-alt"></i> San Francisco, CA</p>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2024 InterviewAI. All rights reserved.</p>
+        <p>&copy; 2024 Interview Sensei. All rights reserved.</p>
       </div>
     </footer>
 

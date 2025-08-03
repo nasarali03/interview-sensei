@@ -1,4 +1,5 @@
 import os
+import re
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain_groq import ChatGroq
@@ -60,7 +61,53 @@ class InterviewQuestionGenerator:
 
         self.llm_chain = LLMChain(prompt=self.prompt, llm=self.llm)
 
+    def is_irrelevant_input(self, text: str) -> bool:
+        """
+        Check if the input is irrelevant to interview preparation.
+        """
+        # Convert to lowercase for case-insensitive matching
+        text_lower = text.lower().strip()
+        
+        # Patterns for irrelevant inputs
+        irrelevant_patterns = [
+            r'^hi\s*$',  # Just "hi"
+            r'^hello\s*$',  # Just "hello"
+            r'^hey\s*$',  # Just "hey"
+            r'^thanks?\s*$',  # "thank you" or "thanks"
+            r'^thank\s+you\s*$',  # "thank you"
+            r'^gratitude\s*$',  # "gratitude"
+            r'^bye\s*$',  # "bye"
+            r'^goodbye\s*$',  # "goodbye"
+            r'^how\s+are\s+you\s*\?*$',  # "how are you"
+            r'^what\s+is\s+your\s+name\s*\?*$',  # "what is your name"
+            r'^who\s+are\s+you\s*\?*$',  # "who are you"
+            r'^what\s+can\s+you\s+do\s*\?*$',  # "what can you do"
+            r'^help\s*$',  # "help"
+            r'^\s*$',  # Empty or whitespace only
+        ]
+        
+        for pattern in irrelevant_patterns:
+            if re.match(pattern, text_lower):
+                return True
+        
+        return False
+
+    def get_irrelevant_response(self) -> str:
+        """
+        Return a short, helpful response for irrelevant inputs.
+        """
+        return """**I'm here to help you prepare for interviews!** 
+
+This tool generates personalized interview questions based on job descriptions and resumes. To get started, please upload a job description document, paste a job description, or provide your resume details. I'll then create relevant interview questions tailored to your specific role and experience level.
+
+**Tip:** For best results, include both the job description and your resume to get the most personalized questions."""
+    
     def generate_questions(self, job_description: str = "", resume: str = "") -> str:
+        # Check if the input is irrelevant
+        combined_input = f"{job_description} {resume}".strip()
+        if self.is_irrelevant_input(combined_input):
+            return self.get_irrelevant_response()
+
         if not job_description.strip() and not resume.strip():
             return "Error: Please provide at least a job description or a resume."
 
