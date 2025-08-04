@@ -1,7 +1,8 @@
 import os
 import re
 from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.output_parsers import StrOutputParser
 from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 
@@ -18,49 +19,11 @@ class InterviewQuestionGenerator:
         if not self.api_key:
             raise ValueError("GROQ_API_KEY must be provided.")
 
-        self.llm = ChatGroq(model="llama3-8b-8192", api_key=self.api_key)
-
-        self.template = """
-        You are an expert hiring manager and technical interviewer with deep knowledge of various job roles and industries.
-        Your task is to generate 8-12 highly relevant, role-specific interview questions with detailed answers based on the provided job description and resume.
-
-        {document_block}
-
-        IMPORTANT INSTRUCTIONS:
-        1. Analyze the job role and generate questions specific to that position (e.g., Software Engineer, Data Scientist, Product Manager, etc.)
-        2. For technical roles, include coding questions, algorithm problems, system design questions, and data structure problems
-        3. For each question, provide a comprehensive answer (not just bullet points)
-        4. For technical questions, include relevant code snippets (3-10 lines) in the answer
-        5. Mix different types of questions: behavioral, technical, situational, and role-specific
-        6. Ensure questions match the candidate's experience level and the job requirements
-
-        FORMAT FOR EACH QUESTION:
-        ## [Question Number]. [Question Title]
+        self.llm = ChatGroq(model="llama3-8b-8192", api_key=self.api_key,temperature=0.5)
         
-        **Question:** [Detailed question]
+        self.prompt = None
+        self.llm_chain = None
         
-        **Answer:** [Comprehensive answer with explanations]
-        
-        **Code Example (if applicable):**
-        ```[language]
-        [Relevant code snippet]
-        ```
-
-        **Key Points:**
-        - [Important point 1]
-        - [Important point 2]
-        - [Important point 3]
-
-        Be precise, professional, and ensure the questions are challenging but appropriate for the role and experience level.
-        """
-
-        self.prompt = PromptTemplate(
-            input_variables=["document_block"],
-            template=self.template
-        )
-
-        self.llm_chain = LLMChain(prompt=self.prompt, llm=self.llm)
-
     def is_irrelevant_input(self, text: str) -> bool:
         """
         Check if the input is irrelevant to interview preparation.
@@ -118,10 +81,55 @@ This tool generates personalized interview questions based on job descriptions a
             block_parts.append(f"Resume:\n{resume.strip()}")
 
         document_block = "\n\n".join(block_parts)
+        
+        # Decide context label dynamically
+        if job_description.strip() and resume.strip():
+            context_label = "job description and resume"
+        elif job_description.strip():
+            context_label = "job description"
+        elif resume.strip():
+            context_label = "resume"
+        else:
+            context_label = "input"
+        
+        self.prompt = ChatPromptTemplate.from_messages([
+            ("system","You are an expert hiring manager and technical interviewer."),
+            ("human","""Your task is to generate 8-15 highly relevant, role-specific interview questions with detailed answers based on the following {context_label}.
+            {document_block}
 
+            IMPORTANT INSTRUCTIONS:
+            1. Analyze the job role and generate questions specific to that position (e.g., Software Engineer, Data Scientist, Product Manager, etc.)
+            2. For technical roles, include coding questions, algorithm problems, system design questions, and data structure problems
+            3. For each question, provide a short descriptive answer (not just bullet points)
+            4. For technical questions, include relevant code snippets (3-10 lines) in the answer
+            5. Mix different types of questions: behavioral, technical, situational, and role-specific
+            6. Ensure questions match the candidate's experience level and the job requirements
+
+            FORMAT FOR EACH QUESTION:
+            ## [Question Number]. [Question Title]
+            
+            **Question:** [Detailed question]
+            
+            **Answer:** [Comprehensive answer with explanations]
+            
+            **Code Example (if applicable):**
+            ```[language]
+            [Relevant code snippet]
+            ```
+
+            **Key Points:**
+            - [Important point 1]
+            - [Important point 2]
+            - [Important point 3]
+
+            Be precise, professional, and ensure the questions are challenging but appropriate for the role and experience level.""")
+        ])
+        
+        self.llm_chain = self.prompt | self.llm | StrOutputParser()        
+        
         try:
-            response = self.llm_chain.invoke({"document_block": document_block})
-            return response['text']
+            response = self.llm_chain.invoke({"document_block": document_block,"context_label":context_label})
+            return response
         except Exception as e:
             return f"An error occurred: {e}"
 
@@ -131,7 +139,7 @@ This tool generates personalized interview questions based on job descriptions a
     def get_supported_document_types(self) -> list:
         return ["job description", "resume"]
 
-# # Optional CLI usage for testing
+# Optional CLI usage for testing
 # if __name__ == '__main__':
 #     generator = InterviewQuestionGenerator()
     
