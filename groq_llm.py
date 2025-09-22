@@ -20,7 +20,7 @@ class InterviewQuestionGenerator:
         if not self.api_key:
             raise ValueError("GROQ_API_KEY must be provided.")
 
-        self.llm = ChatGroq(model="llama3-8b-8192", api_key=self.api_key,temperature=0.5)
+        self.llm = ChatGroq(model="llama-3.3-70b-versatile", api_key=self.api_key,temperature=0.5)
         
         self.prompt = None
         self.llm_chain = None
